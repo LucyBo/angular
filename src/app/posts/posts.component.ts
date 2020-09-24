@@ -26,4 +26,10 @@ export class PostsComponent {
       (this.posts as any[]).splice(0,0,post);
     });
   }
+  updatePost(post) {
+    this.httpClient.patch(this.postURL + '/' + post.id, JSON.stringify({isRead: true}))
+    .subscribe(response => {
+    console.log(response)
+    })
+    }
 }

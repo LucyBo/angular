@@ -12,6 +12,7 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { SignupFormComponent } from './signup-form/signup-form.component';
+import { NewCourseFormComponent } from './new-course-form/new-course-form.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { SignupFormComponent } from './signup-form/signup-form.component';
     InputFormatDirective,
     ZippyComponent,
     ContactFormComponent,
-    SignupFormComponent
+    SignupFormComponent,
+    NewCourseFormComponent
   ],
   imports: [
     BrowserModule,

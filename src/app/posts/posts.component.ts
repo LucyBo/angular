@@ -32,4 +32,11 @@ export class PostsComponent {
     console.log(response)
     })
     }
+
+    deletePost(post) {
+      this.httpClient.delete(this.postURL + '/' + post.id).subscribe(response => {
+        let index = this.posts.indexOf(post);
+        this.posts.splice(index, 1);
+      })
+    }
 }

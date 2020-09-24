@@ -7,14 +7,23 @@ import {HttpClient } from '@angular/common/http';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent {
-  posts = [];
+  posts;
+  private postURL = 'http://jsonplaceholder.typicode.com/posts'; 
  
-  constructor(http: HttpClient) {
-    http.get('http://jsonplaceholder.typicode.com/posts').subscribe((resolve => {
-      for (let key in resolve) {
-        if (resolve.hasOwnProperty(key))
-          this.posts.push(resolve[key]);
-      }
-    }));
+  constructor(private httpClient: HttpClient) { 
+    httpClient.get(this.postURL)
+    .subscribe(Response => {
+      this.posts = Response;
+    });
+  }
+ 
+  createPost(input:  HTMLInputElement) {
+    let post = { title: input.value };
+    input.value = '';
+    this.httpClient.post(this.postURL, JSON.stringify(post))
+    .subscribe(response => {
+      post['id'] = response;
+      (this.posts as any[]).splice(0,0,post);
+    });
   }
 }

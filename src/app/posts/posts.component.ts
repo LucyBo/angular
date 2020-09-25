@@ -16,10 +16,6 @@ export class PostsComponent implements OnInit{
     .subscribe(
       Response => {
       this.posts = Response;
-    }, 
-    error => {
-      alert("An unexpcted error occured");
-      console.log(error);
     });
   }
   posts;
@@ -42,11 +38,7 @@ export class PostsComponent implements OnInit{
       if(error instanceof BadInput){
         //this.form.setErrors(error.originalError);
       }
-      else {
-        alert("An unexpcted error occured");
-        console.log(error);
-        }
-     
+      else throw error;
     });
   }
   updatePost(post) {
@@ -54,12 +46,8 @@ export class PostsComponent implements OnInit{
     .subscribe(
     response => {
       console.log(response)
-    }, 
-    error => {
-      alert("An unexpcted error occured");
-      console.log(error);
     });
-    }
+  }
 
     deletePost(post) {
       this.service.deletePosts(post.id)
@@ -71,10 +59,7 @@ export class PostsComponent implements OnInit{
           (error: AppError) => {
             if (error instanceof NotFoundError)
               alert ("This post doesn't exist");
-            else {
-              alert("An unexpcted error occured");
-              console.log(error);
-            }
+            else throw error;
       });
     }
 }

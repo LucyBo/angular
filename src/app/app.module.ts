@@ -1,5 +1,6 @@
+import { AppErrorHandler } from './common/app-error-handler';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FavoriteComponent } from './favorite/favorite.component';
@@ -35,7 +36,9 @@ import { PostService } from './services/post.service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ PostService],
+  providers: [ 
+    PostService,
+    {provide: ErrorHandler, useClass: AppErrorHandler}],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

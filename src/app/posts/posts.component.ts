@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../services/post.service';
 import { NotFoundError } from '../common/not-found-error';
+import { AppError } from '../common/app-error';
+import { BadInput } from '../common/bad-input';
 
 @Component({
   selector: 'posts',
@@ -36,9 +38,9 @@ export class PostsComponent implements OnInit{
       post['id'] = response;
       (this.posts as any[]).splice(0,0,post);
     }, 
-    (error: Response) => {
-      if(error.status === 400){
-        // this.form.setErrors(error.json());
+    (error: AppError) => {
+      if(error instanceof BadInput){
+        //this.form.setErrors(error.originalError);
       }
       else {
         alert("An unexpcted error occured");

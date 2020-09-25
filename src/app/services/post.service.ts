@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators/catchError';
+import { catchError } from 'rxjs/operators';
 import { AppError } from '../common/app-error';
 import { NotFoundError } from '../common/not-found-error';
+import { BadInput } from '../common/bad-input';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,13 @@ export class PostService {
   }
 
   createPost(post){
-    return this.httpClient.post(this.postURL, JSON.stringify(post))
+    return this.httpClient.post(this.postURL, JSON.stringify(post)).pipe(
+    catchError((error: Response) =>{
+      if(error.status === 400)
+      return Observable.throw(new BadInput(error.json()))
+
+      return Observable.throw(new AppError(error.json()))
+    }))
   }
 
   updatePost(post) {
@@ -26,11 +33,11 @@ export class PostService {
   }
 
   deletePosts(id){
-    return this.httpClient.delete(this.postURL + '/' + id)
-    .catchError((error: HttpErrorResponse) => {
+    return this.httpClient.delete(this.postURL + '/' + id).pipe
+    (catchError((error: HttpErrorResponse) => {
       if(error.status === 404) 
         return Observable.throw(new NotFoundError());
       return Observable.throw(new AppError(error));
-    })
+    }))
   }
 }

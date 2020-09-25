@@ -10,25 +10,23 @@ import { BadInput } from '../common/bad-input';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit{
+  posts;
+
+  constructor(private service: PostService) { 
+  }
 
   ngOnInit() {
-    this.service.getPosts()
+    this.service.getAll()
     .subscribe(
       Response => {
       this.posts = Response;
     });
   }
-  posts;
 
- 
-  constructor(private service: PostService) { 
-    
-  }
- 
-  createPost(input:  HTMLInputElement) {
+  createPost(input: HTMLInputElement) {
     let post = { title: input.value };
     input.value = '';
-    this.service.createPost(post)
+    this.service.create(post)
     .subscribe(
     response => {
       post['id'] = response;
@@ -42,7 +40,7 @@ export class PostsComponent implements OnInit{
     });
   }
   updatePost(post) {
-    this.service.updatePost(post)
+    this.service.update(post)
     .subscribe(
     response => {
       console.log(response)
@@ -50,7 +48,7 @@ export class PostsComponent implements OnInit{
   }
 
     deletePost(post) {
-      this.service.deletePosts(post.id)
+      this.service.delete(post.id)
         .subscribe(
           response => {
             let index = this.posts.indexOf(post);
